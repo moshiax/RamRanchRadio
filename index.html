@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="icon" href="https://i.cbc.ca/1.6358385.1645302764!/fileImage/httpImage/image.jpeg_gen/derivatives/original_780/grant-macdonald.jpeg" type="image/jpeg">
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        h1 {
+            color: #58a6ff;
+            text-align: center;
+        }
+
+        iframe {
+            border: none;
+            background-color: #0d1117;
+            border-radius: 6px;
+            overflow: hidden;
+            z-index: 100;  
+            display: block;
+        }
+
+        .iframe-container::before {
+            content: "";
+            display: block;
+            padding-top: 21%;  
+            z-index: 100; 
+        }
+
+        .iframe-container iframe {
+            transform: scale(4);
+            top: 0;
+            left: 0;
+            z-index: 100;  
+        }
+
+        .flag {
+            position: absolute;
+            width: 200px; 
+            height: 120px;  
+            background-size: cover;
+            z-index: 1;  
+            opacity: 0;  
+            transition: opacity 1s;  
+        }
+
+        .flag-ukraine {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Ukraine.svg/1920px-Flag_of_Ukraine.svg.png');
+            left: 0;
+            top: 0;
+        }
+
+        .flag-lgbt {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Gay_Pride_Flag.svg/1920px-Gay_Pride_Flag.svg.png');
+            right: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    <div class="iframe-container">
+        <iframe id="radioIframe" src="http://138.2.138.250/public/radioramranch/embed?autoplay=1" allowtransparency="true"></iframe>
+    </div>
+    <div class="flag flag-ukraine"></div>
+    <div class="flag flag-lgbt"></div>
+
+    <script>
+        document.getElementById('radioIframe').addEventListener('load', () => {
+            const flags = document.querySelectorAll('.flag');
+            const speed = 1;
+ 
+            flags.forEach(flag => flag.style.opacity = 1);
+
+            flags.forEach(flag => {
+                let posY = parseFloat(getComputedStyle(flag).top);
+                let directionY = Math.random() > 0.5 ? 1 : -1;
+
+                function move() {
+                    posY += speed * directionY;
+
+                    if (posY < 0 || posY > window.innerHeight - flag.offsetHeight) {
+                        directionY *= -1;
+                    }
+
+                    flag.style.top = `${posY}px`;
+
+                    requestAnimationFrame(move);
+                }
+
+                move();
+            });
+        });
+    </script>
+</body>
+</html>
